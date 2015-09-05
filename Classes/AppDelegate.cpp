@@ -3,10 +3,10 @@
 
 USING_NS_CC;
 
-static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
-static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
-static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
-static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
+static cocos2d::Size designResolutionSize = cocos2d::Size(897, 540);
+static cocos2d::Size smallResolutionSize = cocos2d::Size(designResolutionSize.width / 2, designResolutionSize.height / 2);
+static cocos2d::Size mediumResolutionSize = cocos2d::Size(designResolutionSize.width, designResolutionSize.height);
+static cocos2d::Size largeResolutionSize = cocos2d::Size(designResolutionSize.width * 2, designResolutionSize.height * 2);
 
 AppDelegate::AppDelegate() {
 
@@ -39,7 +39,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
+        glview = GLViewImpl::createWithRect("Frenzy", Rect(0, 0, mediumResolutionSize.width * 1.5, mediumResolutionSize.height * 1.5));
+#else
         glview = GLViewImpl::create("Frenzy");
+#endif
         director->setOpenGLView(glview);
     }
 

@@ -30,6 +30,16 @@ bool MainMenu::init()
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    std::ostringstream logStream;
+    logStream << "visibleSize: " << visibleSize.width << ", " << visibleSize.height << std::endl;
+    logStream << "origin: " << origin.x << ", " << origin.y << std::endl;
+    Size frameSize = Director::getInstance()->getOpenGLView()->getFrameSize();
+    logStream << "frame: " << frameSize.width << ", " << frameSize.height; 
+    auto screenLog = Label::createWithTTF(logStream.str(), "fonts/arial.ttf", 20);
+    screenLog->setAnchorPoint(Vec2(0, 0));
+    screenLog->setPosition(Vec2(origin.x, origin.y));
+    this->addChild(screenLog, 1);
     
     auto title = Label::createWithTTF("F r e n z y", "fonts/Marker Felt.ttf", 60);
     title->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + ((visibleSize.height / 4) * 3)));
