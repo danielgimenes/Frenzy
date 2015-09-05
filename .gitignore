@@ -1,0 +1,10 @@
+*.o
+bin/
+proj.android/obj/
+proj.android/bin/
+proj.android/gen/
+*.o.d
+cocos2d/
+cocos2d
+linux-build/
+*.so
