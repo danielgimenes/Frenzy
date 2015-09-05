@@ -2,6 +2,7 @@
 #define __GAME_SCENE_H__
 
 #include "cocos2d.h"
+#include "GameBoard.h"
 
 class Game : public cocos2d::Layer
 {
@@ -13,6 +14,10 @@ public:
     CREATE_FUNC(Game);
 
 private:
+    cocos2d::Vec2 origin;
+    cocos2d::Size visibleSize;
+
+    void drawGameBoard(GameBoard *board);
     
     cocos2d::EventListenerTouchOneByOne *touchListener;
 
