@@ -97,7 +97,7 @@ void Game::onTouchEnded(Touch *touch, Event *event)
 
 void Game::createBlockAtPos(int blockCenterX, int blockCenterY)
 {
-    CCLOG("click pos %d, %d", blockCenterX, blockCenterY);
+//    CCLOG("click pos %d, %d", blockCenterX, blockCenterY);
 
     int SQUARE_SIZE = 30;
     int SQUARE_SPACING = 2;
@@ -107,10 +107,12 @@ void Game::createBlockAtPos(int blockCenterX, int blockCenterY)
     int squareTopPos = blockCenterY + (SQUARE_SPACING / 2);
     int squareBottomPos = blockCenterY - (SQUARE_SPACING / 2) - SQUARE_SIZE;
 
+/*
     CCLOG("squareLeftPos = %d", squareLeftPos);
     CCLOG("squareRightPos = %d", squareRightPos);
     CCLOG("squareTopPos = %d", squareTopPos);
     CCLOG("squareBottomPos = %d", squareBottomPos);
+*/
 
     std::string texture1FilePath = "texture1.png";
     std::string texture2FilePath = "texture2.png";
