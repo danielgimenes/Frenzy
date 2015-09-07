@@ -21,11 +21,11 @@ private:
     int horizontalLineSize;
     int verticalLineSize;
 
-    int leftPosBoard; 
-    int rightPosBoard; 
+    float leftPosBoard; 
+    float rightPosBoard; 
 
-    int topPosBoard;
-    int bottomPosBoard;
+    float topPosBoard;
+    float bottomPosBoard;
 
     void drawBoardGrid();
 

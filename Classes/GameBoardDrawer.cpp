@@ -1,10 +1,12 @@
 #include "GameBoardDrawer.h"
 #include "GameBoard.h"
+#include "Colors.h"
 
 USING_NS_CC;
 
 const int SQUARE_SIZE = 30;
 const int SQUARE_SPACING = 2;
+
 const std::string SQUARE_TEXTURE_FILE_BY_VALUE[] =
 {
     "invalid.png",
@@ -22,11 +24,11 @@ GameBoardDrawer::GameBoardDrawer(GameBoard *board, Node *node, cocos2d::Vec2 ori
     horizontalLineSize = board->getBoardWidthInSquares() * (SQUARE_SIZE + SQUARE_SPACING);
     verticalLineSize = board->getBoardHeightInSquares() * (SQUARE_SIZE + SQUARE_SPACING);
 
-    leftPosBoard = (int) (horizontalCenter - (horizontalLineSize / 2)); 
-    rightPosBoard = (int) (horizontalCenter + (horizontalLineSize / 2)); 
+    leftPosBoard = horizontalCenter - (horizontalLineSize / 2); 
+    rightPosBoard = horizontalCenter + (horizontalLineSize / 2); 
 
-    topPosBoard = (int) (verticalCenter + (verticalLineSize / 2));
-    bottomPosBoard = (int) (verticalCenter - (verticalLineSize / 2));
+    topPosBoard = verticalCenter + (verticalLineSize / 2);
+    bottomPosBoard = verticalCenter - (verticalLineSize / 2);
 
     boardRootNode = Node::create();
     node->addChild(boardRootNode);
@@ -42,25 +44,23 @@ void GameBoardDrawer::drawGameBoard()
 void GameBoardDrawer::drawBoardGrid()
 {
     auto drawBoardNode = DrawNode::create();
-    auto boardLinesColor = Color4F::RED;
-    auto boardRectColor = Color4F::WHITE;
     
     // horizontal lines
     for (int i = 1, topPos = 0; i < board->getBoardHeightInSquares(); ++i)
     { 
         topPos = topPosBoard - (i * (SQUARE_SIZE + SQUARE_SPACING));
-        drawBoardNode->drawLine(Vec2(leftPosBoard, topPos), Vec2(rightPosBoard, topPos), boardLinesColor);
+        drawBoardNode->drawLine(Vec2(leftPosBoard, topPos), Vec2(rightPosBoard, topPos), BOARD_LINES_COLOR);
     }
 
     // vertical lines
     for (int i = 1, leftPos = 0; i < board->getBoardWidthInSquares(); ++i)
     {
         leftPos = leftPosBoard + (i * (SQUARE_SIZE + SQUARE_SPACING));
-        drawBoardNode->drawLine(Vec2(leftPos, bottomPosBoard), Vec2(leftPos, topPosBoard), boardLinesColor);
+        drawBoardNode->drawLine(Vec2(leftPos, bottomPosBoard), Vec2(leftPos, topPosBoard), BOARD_LINES_COLOR);
     }
 
     // board enclosing rectangle
-    drawBoardNode->drawRect(Vec2(leftPosBoard, bottomPosBoard), Vec2(rightPosBoard, topPosBoard), boardRectColor);
+    drawBoardNode->drawRect(Vec2(leftPosBoard, bottomPosBoard), Vec2(rightPosBoard, topPosBoard), BOARD_RECT_COLOR);
 
     boardRootNode->addChild(drawBoardNode, 1);
 }
@@ -84,8 +84,8 @@ void GameBoardDrawer::drawSquares()
 
 void GameBoardDrawer::drawSquareAtBoardPos(int x, int y, int squareValue)
 {
-    int leftPos = leftPosBoard + (x * (SQUARE_SIZE + SQUARE_SPACING));
-    int topPos = topPosBoard - ((y+1) * (SQUARE_SIZE + SQUARE_SPACING));
+    int leftPos = (SQUARE_SPACING / 2) + leftPosBoard + (x * (SQUARE_SIZE + SQUARE_SPACING));
+    int topPos = (SQUARE_SPACING / 2) + topPosBoard - ((y+1) * (SQUARE_SIZE + SQUARE_SPACING));
     
     auto square = Sprite::create(SQUARE_TEXTURE_FILE_BY_VALUE[squareValue], Rect(0, 0, SQUARE_SIZE, SQUARE_SIZE));
     square->setAnchorPoint(Vec2(0, 0));

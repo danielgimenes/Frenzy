@@ -128,6 +128,7 @@ set(GAME_SRC
   Classes/GameScene.cpp
   Classes/GameBoard.cpp
   Classes/GameBoardDrawer.cpp
+  Classes/Colors.cpp
   ${PLATFORM_SPECIFIC_SRC}
 )
 
@@ -137,6 +138,7 @@ set(GAME_HEADERS
   Classes/GameScene.h
   Classes/GameBoard.h
   Classes/GameBoardDrawer.h
+  Classes/Colors.h
   ${PLATFORM_SPECIFIC_HEADERS}
 )
 

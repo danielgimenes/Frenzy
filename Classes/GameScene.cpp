@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "Colors.h"
 
 USING_NS_CC;
 
@@ -24,6 +25,9 @@ bool Game::init()
     {
         return false;
     }
+
+    auto colorLayer = LayerColor::create(GAME_SCENE_BACKGROUND_COLOR);
+    this->addChild(colorLayer, 0);
     
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
