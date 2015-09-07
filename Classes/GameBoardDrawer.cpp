@@ -14,7 +14,6 @@ const std::string SQUARE_TEXTURE_FILE_BY_VALUE[] =
     "texture2.png"
 };
 
-
 GameBoardDrawer::GameBoardDrawer(GameBoard *board, Node *node, cocos2d::Vec2 origin, cocos2d::Size visibleSize)
 {
     this->board = board;
@@ -46,7 +45,7 @@ void GameBoardDrawer::drawBoardGrid()
     auto drawBoardNode = DrawNode::create();
     
     // horizontal lines
-    for (int i = 1, topPos = 0; i < board->getBoardHeightInSquares(); ++i)
+    for (int i = 2, topPos = 0; i < board->getBoardHeightInSquares(); ++i)
     { 
         topPos = topPosBoard - (i * (SQUARE_SIZE + SQUARE_SPACING));
         drawBoardNode->drawLine(Vec2(leftPosBoard, topPos), Vec2(rightPosBoard, topPos), BOARD_LINES_COLOR);
@@ -56,11 +55,13 @@ void GameBoardDrawer::drawBoardGrid()
     for (int i = 1, leftPos = 0; i < board->getBoardWidthInSquares(); ++i)
     {
         leftPos = leftPosBoard + (i * (SQUARE_SIZE + SQUARE_SPACING));
-        drawBoardNode->drawLine(Vec2(leftPos, bottomPosBoard), Vec2(leftPos, topPosBoard), BOARD_LINES_COLOR);
+        drawBoardNode->drawLine(Vec2(leftPos, bottomPosBoard),
+            Vec2(leftPos, topPosBoard - ((SQUARE_SIZE + SQUARE_SPACING) * 2)), BOARD_LINES_COLOR);
     }
 
     // board enclosing rectangle
-    drawBoardNode->drawRect(Vec2(leftPosBoard, bottomPosBoard), Vec2(rightPosBoard, topPosBoard), BOARD_RECT_COLOR);
+    drawBoardNode->drawRect(Vec2(leftPosBoard, bottomPosBoard),
+         Vec2(rightPosBoard, topPosBoard - ((SQUARE_SIZE + SQUARE_SPACING) * 2)), BOARD_RECT_COLOR);
 
     boardRootNode->addChild(drawBoardNode, 1);
 }

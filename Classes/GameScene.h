@@ -24,6 +24,8 @@ private:
 
     GameBoardDrawer *drawer;
 
+    void onBoardTimerTick(float delta);
+
     bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
 
     void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event);

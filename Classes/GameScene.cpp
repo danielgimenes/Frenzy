@@ -59,7 +59,16 @@ bool Game::init()
     
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
+    auto scheduler = Director::getInstance()->getScheduler();
+    scheduler->schedule(schedule_selector(Game::onBoardTimerTick), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, false);
+
     return true;
+}
+
+void Game::onBoardTimerTick(float delta)
+{
+    board->processBoard();
+    drawer->drawGameBoard();
 }
 
 bool Game::onTouchBegan(Touch *touch, Event *event)
