@@ -17,6 +17,8 @@ public:
     int getBoardWidthInSquares();
 
     int getBoardHeightInSquares();
+    
+    void resetBoard();
 
 private:
     char *board;

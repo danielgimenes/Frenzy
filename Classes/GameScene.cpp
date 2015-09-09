@@ -32,6 +32,11 @@ bool Game::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
 
+    board = new GameBoard();
+    board->spawnNewBlock();
+    drawer = new GameBoardDrawer(board, this, origin, visibleSize); 
+    drawer->drawGameBoard();
+
     auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
         [] (Ref *sender) {
             Director::getInstance()->end();
@@ -39,19 +44,31 @@ bool Game::init()
             exit(0);
             #endif
         });
+    closeItem->setScaleX(2.0f);
+    closeItem->setScaleY(2.0f);
 
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2,
-                                origin.y + closeItem->getContentSize().height/2));
+    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 - 20,
+                                origin.y + closeItem->getContentSize().height/2 + 30));
 
-    auto menu = Menu::create(closeItem, NULL);
+    auto resetItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
+        [this] (Ref *sender) {
+            this->board->resetBoard();
+            this->drawer->drawGameBoard();
+        });
+    resetItem->setScaleX(2.0f);
+    resetItem->setScaleY(2.0f);
+
+    resetItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 - 70,
+                                origin.y + closeItem->getContentSize().height/2 + 30));
+
+    Vector<MenuItem*> menuItems;
+    menuItems.pushBack(closeItem);
+    menuItems.pushBack(resetItem);
+
+    auto menu = Menu::createWithArray(menuItems);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    board = new GameBoard();
-    board->spawnNewBlock();
-    drawer = new GameBoardDrawer(board, this, origin, visibleSize); 
-    drawer->drawGameBoard();
- 
     touchListener = EventListenerTouchOneByOne::create();
     touchListener->onTouchBegan = CC_CALLBACK_2(Game::onTouchBegan, this);
     touchListener->onTouchMoved = CC_CALLBACK_2(Game::onTouchMoved, this);

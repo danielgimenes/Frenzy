@@ -77,6 +77,18 @@ void GameBoard::printBoard()
     CCLog("-----");
 }
 
+void GameBoard::resetBoard()
+{
+    for (int i = getBoardHeightInSquares() - 1; i > 0; i--)
+    {
+        for (int j = 0; j < getBoardWidthInSquares(); j++)
+        {
+            int currentSquarePosInBoard = j + (i * getBoardWidthInSquares());
+            board[currentSquarePosInBoard] = 0;
+        }
+    }
+}
+
 void GameBoard::processBoard()
 {
     // run through the board from bottom to top
