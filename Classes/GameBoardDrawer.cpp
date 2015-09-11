@@ -9,9 +9,11 @@ const int SQUARE_SPACING = 2;
 
 const std::string SQUARE_TEXTURE_FILE_BY_VALUE[] =
 {
-    "invalid.png",
+    "invalid.png", 
     "texture1.png",
-    "texture2.png"
+    "texture2.png",
+    "texture4.png",
+    "texture5.png"
 };
 
 GameBoardDrawer::GameBoardDrawer(GameBoard *board, Node *node, cocos2d::Vec2 origin, cocos2d::Size visibleSize)

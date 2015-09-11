@@ -92,17 +92,20 @@ void GameBoard::resetBoard()
 
 void GameBoard::processBoard()
 {
-    // run through the board from bottom to top
+    // run through the board from bottom to top, left to right
+    // skiping topmost row
     // bringing squares down if possible
-    // skip topmost row
+    // and checking for blocks that can explode
 
     for (int i = getBoardHeightInSquares() - 1; i > 0; i--)
     {
         for (int j = 0; j < getBoardWidthInSquares(); j++)
         {
             int currentSquarePosInBoard = j + (i * getBoardWidthInSquares());
+            int currentSquareValue = board[currentSquarePosInBoard];
+            
             // if this square is blank
-            if ((int) board[currentSquarePosInBoard] == SQUARE_VALUE_BLANK)
+            if (currentSquareValue == SQUARE_VALUE_BLANK)
             {
                 int squareOnTopPosInBoard = j + ((i - 1) * getBoardWidthInSquares());
                 // and square on top is not blank
@@ -113,7 +116,36 @@ void GameBoard::processBoard()
                     // set top square as blank
                     board[squareOnTopPosInBoard] = SQUARE_VALUE_BLANK;
                 }
+            } else {
+                if (j < getBoardWidthInSquares() - 1)
+                {
+                    int normalValue, explodeValue;
+                    if (currentSquareValue == SQUARE_VALUE_TYPE_1 || currentSquareValue == SQUARE_VALUE_TYPE_1_MARKED_TO_EXPLODE)
+                    {
+                        normalValue = SQUARE_VALUE_TYPE_1;
+                        explodeValue = SQUARE_VALUE_TYPE_1_MARKED_TO_EXPLODE;
+
+                    } else if (currentSquareValue == SQUARE_VALUE_TYPE_2 || currentSquareValue == SQUARE_VALUE_TYPE_2_MARKED_TO_EXPLODE) {
+                        normalValue = SQUARE_VALUE_TYPE_2;
+                        explodeValue = SQUARE_VALUE_TYPE_2_MARKED_TO_EXPLODE;
+                    }
+                    int squareOnTopPos = j + ((i - 1) * getBoardWidthInSquares());
+                    int squareOnTopRightPos = (j + 1) + ((i - 1) * getBoardWidthInSquares());
+                    int squareOnRightPos = (j + 1) + (i * getBoardWidthInSquares());
+                    if ((board[squareOnTopPos] == normalValue || board[squareOnTopPos] == explodeValue) &&
+                        (board[squareOnTopRightPos] == normalValue || board[squareOnTopRightPos] == explodeValue) &&
+                        (board[squareOnRightPos] == normalValue || board[squareOnRightPos] == explodeValue))
+                    {
+                        board[squareOnTopPos] = explodeValue;
+                        board[squareOnTopRightPos] = explodeValue;
+                        board[squareOnRightPos] = explodeValue;
+                        board[currentSquarePosInBoard] = explodeValue;
+                    } 
+                }    
+
             }
+
+            
         }
     }
 
