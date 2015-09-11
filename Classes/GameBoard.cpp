@@ -85,6 +85,7 @@ void GameBoard::resetBoard()
         {
             int currentSquarePosInBoard = j + (i * getBoardWidthInSquares());
             board[currentSquarePosInBoard] = 0;
+            blankSquares = getBoardWidthInSquares() * getBoardHeightInSquares();
         }
     }
 }
