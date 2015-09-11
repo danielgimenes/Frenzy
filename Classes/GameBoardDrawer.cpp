@@ -13,7 +13,8 @@ const std::string SQUARE_TEXTURE_FILE_BY_VALUE[] =
     "texture1.png",
     "texture2.png",
     "texture4.png",
-    "texture5.png"
+    "texture5.png",
+    "texture3.png"
 };
 
 GameBoardDrawer::GameBoardDrawer(GameBoard *board, Node *node, cocos2d::Vec2 origin, cocos2d::Size visibleSize)
@@ -40,6 +41,7 @@ void GameBoardDrawer::drawGameBoard()
     boardRootNode->removeAllChildren();
     drawBoardGrid();
     drawSquares();
+    drawExplodingBar();
 }
 
 void GameBoardDrawer::drawBoardGrid()
@@ -83,6 +85,15 @@ void GameBoardDrawer::drawSquares()
             }
         }
     }        
+}
+
+void GameBoardDrawer::drawExplodingBar()
+{
+    auto drawBoardNode = DrawNode::create();
+    int leftPos = leftPosBoard + (board->getExplosionBarPos() * (SQUARE_SIZE + SQUARE_SPACING));
+    drawBoardNode->drawLine(Vec2(leftPos, bottomPosBoard - 10),
+        Vec2(leftPos, topPosBoard - ((SQUARE_SIZE + SQUARE_SPACING) * 2) + 10), EXPLODING_BAR_COLOR);
+    boardRootNode->addChild(drawBoardNode, 1);
 }
 
 void GameBoardDrawer::drawSquareAtBoardPos(int x, int y, int squareValue)

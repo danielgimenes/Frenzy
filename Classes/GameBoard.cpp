@@ -10,12 +10,25 @@ const int SQUARE_VALUE_TYPE_1 = 1;
 const int SQUARE_VALUE_TYPE_2 = 2;
 const int SQUARE_VALUE_TYPE_1_MARKED_TO_EXPLODE = 3;
 const int SQUARE_VALUE_TYPE_2_MARKED_TO_EXPLODE = 4;
+const int SQUARE_VALUE_ABOUT_TO_EXPLODE = 5;
+
+float GAME_BOARD_TICK_IN_SECONDS = 0.3f;
+
+int INVALID_BOARD_POS = -1;
 
 GameBoard::GameBoard()
 {
     board = new char[getBoardWidthInSquares() * getBoardHeightInSquares()];
+    setBoardToInitialState();
+}
+
+void GameBoard::setBoardToInitialState()
+{
     memset(board, SQUARE_VALUE_BLANK, sizeof(char) * getBoardWidthInSquares() * getBoardHeightInSquares());
     blankSquares = getBoardWidthInSquares() * getBoardHeightInSquares();
+    explosionBarPos = 0;
+    barInBigBlock = false;
+    bigBlockStartX = INVALID_BOARD_POS;
 }
 
 void GameBoard::spawnNewBlock()
@@ -86,8 +99,7 @@ void GameBoard::printBoard()
 
 void GameBoard::resetBoard()
 {
-    memset(board, SQUARE_VALUE_BLANK, sizeof(char) * getBoardWidthInSquares() * getBoardHeightInSquares());
-    blankSquares = getBoardWidthInSquares() * getBoardHeightInSquares();
+    setBoardToInitialState();
 }
 
 void GameBoard::processBoard()
@@ -97,6 +109,7 @@ void GameBoard::processBoard()
     // bringing squares down if possible
     // and checking for blocks that can explode
 
+    blankSquares = 0;
     for (int i = getBoardHeightInSquares() - 1; i > 0; i--)
     {
         for (int j = 0; j < getBoardWidthInSquares(); j++)
@@ -104,19 +117,18 @@ void GameBoard::processBoard()
             int currentSquarePosInBoard = j + (i * getBoardWidthInSquares());
             int currentSquareValue = board[currentSquarePosInBoard];
             
-            // if this square is blank
+            // drop the squares
             if (currentSquareValue == SQUARE_VALUE_BLANK)
             {
+                blankSquares++;
                 int squareOnTopPosInBoard = j + ((i - 1) * getBoardWidthInSquares());
-                // and square on top is not blank
                 if (board[squareOnTopPosInBoard] != SQUARE_VALUE_BLANK)
                 {
-                    // set this square as top square's value
                     board[currentSquarePosInBoard] = board[squareOnTopPosInBoard];
-                    // set top square as blank
                     board[squareOnTopPosInBoard] = SQUARE_VALUE_BLANK;
                 }
-            } else {
+            // mark squares to explode
+            } else if (currentSquareValue != SQUARE_VALUE_ABOUT_TO_EXPLODE) {
                 if (j < getBoardWidthInSquares() - 1)
                 {
                     int normalValue, explodeValue;
@@ -144,11 +156,59 @@ void GameBoard::processBoard()
                 }    
 
             }
-
-            
         }
     }
 
+    // advance explosion bar
+    if (explosionBarPos == getBoardWidthInSquares())
+    {
+        explosionBarPos = 0;
+    } else {
+        explosionBarPos++;
+    }
+
+    bool endOfBigBlock = true;
+    if (explosionBarPos != getBoardWidthInSquares())
+    {
+        for (int i = getBoardHeightInSquares() - 1; i > 0; i--)
+        {
+            int currentSquarePosInBoard = explosionBarPos + (i * getBoardWidthInSquares());
+            int currentSquareValue = board[currentSquarePosInBoard];
+            
+            // mark squares as 'about to explode'
+            if (currentSquareValue == SQUARE_VALUE_TYPE_1_MARKED_TO_EXPLODE || currentSquareValue == SQUARE_VALUE_TYPE_2_MARKED_TO_EXPLODE)
+            {
+                board[currentSquarePosInBoard] = SQUARE_VALUE_ABOUT_TO_EXPLODE; 
+                barInBigBlock = true;
+                endOfBigBlock = false;
+            }
+        } 
+
+        if (barInBigBlock && bigBlockStartX == INVALID_BOARD_POS)
+        {
+            bigBlockStartX = explosionBarPos;
+        }
+    }
+
+    // explode big block of squares if end of big block 
+    if (barInBigBlock && (endOfBigBlock || explosionBarPos == getBoardWidthInSquares() - 1))
+    {
+        for (int i = getBoardHeightInSquares() - 1; i > 0; i--)
+        {
+            for (int j = bigBlockStartX; j < explosionBarPos + 1; j++)
+            {
+                int currentSquarePosInBoard = j + (i * getBoardWidthInSquares());
+                int currentSquareValue = board[currentSquarePosInBoard];
+                if (currentSquareValue == SQUARE_VALUE_ABOUT_TO_EXPLODE)
+                {
+                    board[currentSquarePosInBoard] = SQUARE_VALUE_BLANK;
+                }
+            }
+        }
+
+        barInBigBlock = false;
+        bigBlockStartX = INVALID_BOARD_POS;
+    }
 }
 
 char* GameBoard::getBoardRep()
@@ -166,3 +226,7 @@ int GameBoard::getBoardHeightInSquares()
     return BOARD_HEIGHT_IN_SQUARES;
 }
 
+int GameBoard::getExplosionBarPos()
+{
+    return explosionBarPos;
+}

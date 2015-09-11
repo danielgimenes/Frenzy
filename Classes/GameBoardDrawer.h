@@ -31,6 +31,8 @@ private:
 
     void drawSquares();
 
+    void drawExplodingBar();
+
     void drawSquareAtBoardPos(int x, int y, int squareValue);
 
     void createBlockAtPos(int block_center_x, int block_center_y);

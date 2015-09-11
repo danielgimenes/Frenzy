@@ -77,7 +77,7 @@ bool Game::init()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
     auto scheduler = Director::getInstance()->getScheduler();
-    scheduler->schedule(schedule_selector(Game::onBoardTimerTick), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, false);
+    scheduler->schedule(schedule_selector(Game::onBoardTimerTick), this, GAME_BOARD_TICK_IN_SECONDS, CC_REPEAT_FOREVER, 0.0f, false);
 
     return true;
 }

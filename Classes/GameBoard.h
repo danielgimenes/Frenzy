@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 
+extern float GAME_BOARD_TICK_IN_SECONDS;
+
 class GameBoard 
 {
 public:
@@ -20,14 +22,24 @@ public:
     
     void resetBoard();
 
+    int getExplosionBarPos();
+
 private:
     char *board;
 
     int blankSquares;
 
+    int explosionBarPos;
+
+    bool barInBigBlock;
+
+    int bigBlockStartX;
+
     void printBoard();
 
     bool isPlaceValidForNewBlock(int x, int y);
+
+    void setBoardToInitialState();
 };
 
 #endif 

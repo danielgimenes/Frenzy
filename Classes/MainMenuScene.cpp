@@ -41,17 +41,17 @@ bool MainMenu::init()
     screenLog->setPosition(Vec2(origin.x, origin.y));
     this->addChild(screenLog, 1);
     
-    auto title = Label::createWithTTF("F r e n z y", "fonts/Marker Felt.ttf", 60);
-    title->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + ((visibleSize.height / 4) * 3)));
+    auto title = Label::createWithTTF("F r e n z y", "fonts/Marker Felt.ttf", 90);
+    title->setPosition(Vec2(origin.x + (visibleSize.width / 2), origin.y + ((visibleSize.height / 4) * 3)));
     this->addChild(title, 1);
 
-    auto startLabel = Label::createWithTTF("START", "fonts/Marker Felt.ttf", 32);
+    auto startLabel = Label::createWithTTF("START", "fonts/Marker Felt.ttf", 60);
     auto startMenuItem = MenuItemLabel::create(startLabel, [] (Ref *sender) {
         Director::getInstance()->replaceScene(Game::createScene());
     });
-    startMenuItem->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + title->getPosition().y - (title->getContentSize().height / 2) - 40));
+    startMenuItem->setPosition(Vec2(origin.x + (visibleSize.width / 2), title->getPosition().y - (int)(title->getContentSize().height * 1.5f)));
 
-    auto exitLabel = Label::createWithTTF("EXIT", "fonts/Marker Felt.ttf", 32);
+    auto exitLabel = Label::createWithTTF("EXIT", "fonts/Marker Felt.ttf", 60);
     auto exitMenuItem = MenuItemLabel::create(exitLabel, [] (Ref *sender) {
         Director::getInstance()->end();
 
@@ -59,7 +59,7 @@ bool MainMenu::init()
         exit(0);
 #endif
     });
-    exitMenuItem->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + startMenuItem->getPosition().y - (startMenuItem->getContentSize().height / 2) - 40));
+    exitMenuItem->setPosition(Vec2(origin.x + (visibleSize.width / 2), startMenuItem->getPosition().y - (int)(startMenuItem->getContentSize().height * 1.5f)));
 
     Vector<MenuItem*> menuItems;
     menuItems.pushBack(startMenuItem);
