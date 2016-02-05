@@ -52,7 +52,7 @@ void GameBoard::spawnNewPiece()
     int maxTries = blankBlocks * 2;
     do {
         leftPosInPieces = rand() % (getBoardWidthInBlocks() - 1);
-        topPosInPieces = 0;//rand() % (getBoardHeightInBlocks() - 1);
+        topPosInPieces = 0; //rand() % (getBoardHeightInBlocks() - 1);
     } while(!isPlaceValidForNewPiece(leftPosInPieces, topPosInPieces) && ++tries < maxTries);
     if (tries == maxTries) 
     {
@@ -204,7 +204,6 @@ void GameBoard::processBoard()
                 }
             }
         }
-
         barInBigBlock = false;
         bigBlockStartX = INVALID_BOARD_POS;
     }

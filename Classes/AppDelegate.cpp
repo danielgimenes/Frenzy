@@ -8,8 +8,8 @@ static cocos2d::Size smallResolutionSize = cocos2d::Size(designResolutionSize.wi
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(designResolutionSize.width, designResolutionSize.height);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(designResolutionSize.width * 2, designResolutionSize.height * 2);
 
-AppDelegate::AppDelegate() {
-
+AppDelegate::AppDelegate()
+{
 }
 
 AppDelegate::~AppDelegate() 
