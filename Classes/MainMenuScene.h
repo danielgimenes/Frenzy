@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 
-class MainMenu : public cocos2d::Layer
+class MainMenuScene : public cocos2d::Layer
 {
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -13,7 +13,7 @@ public:
     virtual bool init();
     
     // implement the "static create()" method manually
-    CREATE_FUNC(MainMenu);
+    CREATE_FUNC(MainMenuScene);
 
 };
 

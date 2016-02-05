@@ -3,13 +3,13 @@
 
 USING_NS_CC;
 
-Scene* MainMenu::createScene()
+Scene* MainMenuScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = MainMenu::create();
+    auto layer = MainMenuScene::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -19,7 +19,7 @@ Scene* MainMenu::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool MainMenu::init()
+bool MainMenuScene::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -47,7 +47,7 @@ bool MainMenu::init()
 
     auto startLabel = Label::createWithTTF("START", "fonts/Marker Felt.ttf", 60);
     auto startMenuItem = MenuItemLabel::create(startLabel, [] (Ref *sender) {
-        Director::getInstance()->replaceScene(Game::createScene());
+        Director::getInstance()->replaceScene(GameScene::createScene());
     });
     startMenuItem->setPosition(Vec2(origin.x + (visibleSize.width / 2), title->getPosition().y - (int)(title->getContentSize().height * 1.5f)));
 

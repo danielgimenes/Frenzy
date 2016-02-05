@@ -3,13 +3,13 @@
 
 USING_NS_CC;
 
-Scene* Game::createScene()
+Scene* GameScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = Game::create();
+    auto layer = GameScene::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -19,7 +19,7 @@ Scene* Game::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool Game::init()
+bool GameScene::init()
 {
     if ( !Layer::init() )
     {
@@ -36,6 +36,8 @@ bool Game::init()
     board->spawnNewBlock();
     drawer = new GameBoardDrawer(board, this, origin, visibleSize); 
     drawer->drawGameBoard();
+    
+    int SCREEN_BORDER = 20;
 
     auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
         [] (Ref *sender) {
@@ -44,22 +46,22 @@ bool Game::init()
             exit(0);
             #endif
         });
-    closeItem->setScaleX(2.0f);
-    closeItem->setScaleY(2.0f);
+    closeItem->setScaleX(4.0f);
+    closeItem->setScaleY(4.0f);
 
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 - 20,
-                                origin.y + closeItem->getContentSize().height/2 + 30));
+    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->boundingBox().size.width/2 - SCREEN_BORDER,
+                                origin.y + closeItem->boundingBox().size.height/2 + SCREEN_BORDER));
 
     auto resetItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
         [this] (Ref *sender) {
             this->board->resetBoard();
             this->drawer->drawGameBoard();
         });
-    resetItem->setScaleX(2.0f);
-    resetItem->setScaleY(2.0f);
-
-    resetItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 - 70,
-                                origin.y + closeItem->getContentSize().height/2 + 30));
+    resetItem->setScaleX(4.0f);
+    resetItem->setScaleY(4.0f);
+    int SEPARATOR = 5;
+    resetItem->setPosition(Vec2(closeItem->getPosition().x - closeItem->boundingBox().size.width/2 - resetItem->boundingBox().size.width/2 - SEPARATOR,
+                                origin.y + resetItem->boundingBox().size.height/2 + SCREEN_BORDER));
 
     Vector<MenuItem*> menuItems;
     menuItems.pushBack(closeItem);
@@ -70,35 +72,35 @@ bool Game::init()
     this->addChild(menu, 1);
 
     touchListener = EventListenerTouchOneByOne::create();
-    touchListener->onTouchBegan = CC_CALLBACK_2(Game::onTouchBegan, this);
-    touchListener->onTouchMoved = CC_CALLBACK_2(Game::onTouchMoved, this);
-    touchListener->onTouchEnded = CC_CALLBACK_2(Game::onTouchEnded, this);
+    touchListener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
+    touchListener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchMoved, this);
+    touchListener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
     
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
 
     auto scheduler = Director::getInstance()->getScheduler();
-    scheduler->schedule(schedule_selector(Game::onBoardTimerTick), this, GAME_BOARD_TICK_IN_SECONDS, CC_REPEAT_FOREVER, 0.0f, false);
+    scheduler->schedule(schedule_selector(GameScene::onBoardTimerTick), this, GAME_BOARD_TICK_IN_SECONDS, CC_REPEAT_FOREVER, 0.0f, false);
 
     return true;
 }
 
-void Game::onBoardTimerTick(float delta)
+void GameScene::onBoardTimerTick(float delta)
 {
     board->processBoard();
     drawer->drawGameBoard();
 }
 
-bool Game::onTouchBegan(Touch *touch, Event *event)
+bool GameScene::onTouchBegan(Touch *touch, Event *event)
 {
     board->spawnNewBlock();
     drawer->drawGameBoard();
     return true;
 }
 
-void Game::onTouchMoved(Touch *touch, Event *event)
+void GameScene::onTouchMoved(Touch *touch, Event *event)
 {
 }
 
-void Game::onTouchEnded(Touch *touch, Event *event)
+void GameScene::onTouchEnded(Touch *touch, Event *event)
 {
 }
