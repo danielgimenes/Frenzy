@@ -10,15 +10,15 @@ class GameBoard
 public:
     GameBoard();
 
-    void spawnNewBlock();
+    void spawnNewPiece();
 
     void processBoard();
 
     char* getBoardRep();
 
-    int getBoardWidthInSquares();
+    int getBoardWidthInBlocks();
 
-    int getBoardHeightInSquares();
+    int getBoardHeightInBlocks();
     
     void resetBoard();
 
@@ -27,17 +27,18 @@ public:
 private:
     char *board;
 
-    int blankSquares;
+    int blankBlocks;
 
     int explosionBarPos;
 
     bool barInBigBlock;
 
+    // big block = set of blocks that are about to explode!
     int bigBlockStartX;
 
     void printBoard();
 
-    bool isPlaceValidForNewBlock(int x, int y);
+    bool isPlaceValidForNewPiece(int x, int y);
 
     void setBoardToInitialState();
 };

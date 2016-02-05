@@ -33,7 +33,7 @@ bool GameScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
 
     board = new GameBoard();
-    board->spawnNewBlock();
+    board->spawnNewPiece();
     drawer = new GameBoardDrawer(board, this, origin, visibleSize); 
     drawer->drawGameBoard();
     
@@ -92,7 +92,7 @@ void GameScene::onBoardTimerTick(float delta)
 
 bool GameScene::onTouchBegan(Touch *touch, Event *event)
 {
-    board->spawnNewBlock();
+    board->spawnNewPiece();
     drawer->drawGameBoard();
     return true;
 }

@@ -29,13 +29,13 @@ private:
 
     void drawBoardGrid();
 
-    void drawSquares();
+    void drawBlocks();
 
     void drawExplodingBar();
 
-    void drawSquareAtBoardPos(int x, int y, int squareValue);
+    void drawBlockAtBoardPos(int x, int y, int squareValue);
 
-    void createBlockAtPos(int block_center_x, int block_center_y);
+    void createPieceAtPos(int pieceCenterX, int pieceCenterY);
 };
 
 #endif 
