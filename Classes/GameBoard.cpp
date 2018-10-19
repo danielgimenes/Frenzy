@@ -56,7 +56,7 @@ void GameBoard::spawnNewPiece()
     } while(!isPlaceValidForNewPiece(leftPosInPieces, topPosInPieces) && ++tries < maxTries);
     if (tries == maxTries) 
     {
-        CCLog("couldn't find a suitable place for a new piece");
+        cocos2d::log("couldn't find a suitable place for a new piece");
         return;
     }
     for (int i = 0; i < 2; i++)
@@ -83,7 +83,7 @@ bool GameBoard::isPlaceValidForNewPiece(int x, int y)
 
 void GameBoard::printBoard() 
 {
-    CCLog("_____");
+    cocos2d::log("_____");
     std::stringstream ss;
     for (int i = 0; i < getBoardHeightInBlocks(); i++) 
     {
@@ -91,10 +91,10 @@ void GameBoard::printBoard()
         {
             ss << (int) board[j + (i * getBoardWidthInBlocks())] << " ";
         }
-        CCLog("%s,", ss.str().c_str());
+        cocos2d::log("%s,", ss.str().c_str());
         ss.str(std::string());
     }        
-    CCLog("-----");
+    cocos2d::log("-----");
 }
 
 void GameBoard::resetBoard()
