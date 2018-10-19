@@ -4,6 +4,7 @@ bin/
 proj.android/obj/
 proj.android/bin/
 proj.android/gen/
+proj.ios_mac/build/
 *.o.d
 cocos2d/
 cocos2d
